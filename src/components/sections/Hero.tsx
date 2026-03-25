@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight, ChevronRight, HardHat, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
@@ -36,17 +36,26 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-4 w-fit">
-              <Button asChild size="lg" className="h-14 px-8 text-lg font-bold uppercase tracking-wide bg-primary text-primary-foreground hover:bg-primary/90 rounded-none w-full sm:w-auto">
-                <Link href="#contact" className="flex items-center justify-center whitespace-nowrap">
-                  Start a Project
-                  <ArrowRight className="ml-2 h-5 w-5 shrink-0" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="h-14 px-8 text-lg font-bold uppercase tracking-wide border-2 border-slate-700 hover:bg-slate-800 text-slate-300 rounded-none bg-transparent w-full sm:w-auto">
-                <Link href="#services" className="flex items-center justify-center whitespace-nowrap">
-                  View Capabilities
-                </Link>
-              </Button>
+              <Link 
+                href="#contact" 
+                className={buttonVariants({ 
+                  size: "lg", 
+                  className: "h-14 px-8 text-lg font-bold uppercase tracking-wide bg-primary text-primary-foreground hover:bg-primary/90 rounded-none w-full sm:w-auto flex items-center justify-center whitespace-nowrap" 
+                })}
+              >
+                Start a Project
+                <ArrowRight className="ml-2 h-5 w-5 shrink-0" />
+              </Link>
+              <Link 
+                href="#services" 
+                className={buttonVariants({ 
+                  variant: "outline", 
+                  size: "lg", 
+                  className: "h-14 px-8 text-lg font-bold uppercase tracking-wide border-2 border-slate-700 hover:bg-slate-800 text-slate-300 rounded-none bg-transparent w-full sm:w-auto flex items-center justify-center whitespace-nowrap" 
+                })}
+              >
+                View Capabilities
+              </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-slate-800">
