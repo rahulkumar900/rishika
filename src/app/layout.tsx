@@ -13,6 +13,20 @@ export const metadata: Metadata = {
     title: "Rishika Cleaner Service",
     description: "Quality Construction & Maintenance Services in Bihar and Jharkhand.",
     type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+        alt: "Rishika Cleaner Service Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rishika Cleaner Service",
+    description: "Quality Construction & Maintenance Services in Bihar and Jharkhand.",
+    images: ["/logo.png"],
   }
 };
 
