@@ -66,6 +66,56 @@ export function About() {
             </p>
           </motion.div>
         </div>
+
+        {/* From the Director's Desk */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-24 grid lg:grid-cols-2 gap-12 items-center bg-slate-50 dark:bg-slate-950 p-8 md:p-12 border border-slate-200 dark:border-slate-800 rounded-3xl relative overflow-hidden group shadow-2xl"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+          
+          <div className="relative">
+            <div className="aspect-square md:aspect-[4/5] relative rounded-2xl overflow-hidden border-4 border-white dark:border-slate-900 shadow-xl max-w-[280px] md:max-w-sm mx-auto lg:mx-0">
+              <img 
+                src="/director.webp" 
+                alt="Director of Rishika Cleaner" 
+                className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/20 to-transparent" />
+              <div className="absolute bottom-6 left-6 text-white text-left">
+                <div className="text-2xl font-black uppercase tracking-tight">Management</div>
+                <div className="text-primary font-bold uppercase text-xs tracking-[0.2em]">Leadership & Vision</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-8 text-left">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-primary/10 border border-primary/20 text-primary rounded-full text-xs font-black uppercase tracking-widest">
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              Director&apos;s Message
+            </div>
+            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-slate-900 dark:text-white leading-tight">
+              Building the <span className="text-primary">Future</span> through Dedication
+            </h3>
+            <div className="space-y-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed italic border-l-4 border-primary/30 pl-6 text-lg md:text-xl">
+              <p>
+                &quot;At Rishika Cleaner Service, our philosophy is simple: delivering excellence without compromise. Every project we undertake is a commitment to the growth and development of our region.&quot;
+              </p>
+              <p>
+                &quot;We don&apos;t just build structures; we build trust through quality engineering and consistent results in construction and civic maintenance.&quot;
+              </p>
+            </div>
+            <div className="pt-4 flex items-center gap-4">
+              <div className="w-12 h-1.5 bg-primary" />
+              <div className="font-black uppercase tracking-[0.15em] text-sm md:text-base text-slate-900 dark:text-white">
+                Director, Rishika Cleaner Service
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

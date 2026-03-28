@@ -26,25 +26,21 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"
-          : "bg-transparent pointer-events-none md:pointer-events-auto"
-      }`}
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${isScrolled
+        ? "bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm py-2"
+        : "bg-transparent py-4"
+        }`}
     >
       <div className="container mx-auto px-4 md:px-6 pointer-events-auto">
         <div className="flex items-center justify-between h-24">
-          
+
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <img 
-              src="/logo.png" 
-              alt="Rishika Cleaner Service Logo" 
-              className={`h-[70px] w-auto py-1 transition-all duration-300 ${
-                isScrolled 
-                  ? "mix-blend-multiply contrast-125 brightness-100" 
-                  : "mix-blend-screen invert contrast-125 opacity-90 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]"
-              }`} 
+            <img
+              src="/logo.png"
+              alt="Rishika Cleaner Service Logo"
+              className={`h-[70px] w-auto py-1 transition-all duration-300 
+                }`}
             />
           </div>
 
@@ -52,27 +48,25 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <div className="flex gap-6">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={`text-sm font-bold tracking-wider uppercase transition-colors ${
-                    isScrolled 
-                      ? "text-slate-600 hover:text-primary" 
-                      : "text-slate-200 hover:text-white drop-shadow-md"
+              <a
+                key={link.name}
+                href={link.href}
+                className={`text-sm font-bold tracking-wider uppercase transition-colors ${isScrolled
+                  ? "text-slate-600 hover:text-primary"
+                  : "text-slate-200 hover:text-white drop-shadow-md"
                   }`}
-                >
-                  {link.name}
-                </a>
-              ))}
+              >
+                {link.name}
+              </a>
+            ))}
             </div>
             <Button size="lg" className="font-bold uppercase tracking-wider">Get a Quote</Button>
           </div>
 
           {/* Mobile Menu Toggle */}
           <button
-            className={`md:hidden p-2 transition-colors ${
-              isScrolled ? "text-slate-900" : "text-white drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]"
-            }`}
+            className={`md:hidden p-2 transition-colors ${isScrolled ? "text-slate-900" : "text-white drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]"
+              }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
@@ -83,10 +77,10 @@ export function Navbar() {
       {/* Mobile Nav */}
       {isMobileMenuOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden absolute top-24 left-0 w-full bg-slate-950 border-b-2 border-primary shadow-2xl"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-[190]"
         >
           <div className="flex flex-col p-6 gap-6 pointer-events-auto">
             {navLinks.map((link) => (
@@ -94,7 +88,7 @@ export function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-bold uppercase tracking-wider p-2 hover:bg-slate-900 rounded-md text-white transition-colors"
+                className="text-lg font-bold uppercase tracking-wider p-2 text-slate-900 dark:text-slate-100 hover:text-primary transition-colors"
               >
                 {link.name}
               </a>

@@ -8,11 +8,11 @@ export function Footer() {
     <footer className="bg-slate-950 text-slate-300 py-16 border-t border-slate-800">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
+
           {/* Brand Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-white pb-2 overflow-hidden">
-              <img src="/logo.png" alt="Rishika Cleaner Service Logo" className="h-20 w-auto object-contain mix-blend-screen invert contrast-125 opacity-90" />
+              <img src="/logo.png" alt="Rishika Cleaner Service Logo" className="h-20 w-auto object-contain " />
             </div>
             <p className="text-sm text-slate-400 max-w-xs leading-relaxed">
               Premium construction, maintenance, and water facility services across Bihar and Jharkhand since 2019.
@@ -47,7 +47,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>+91-76340-84447 &nbsp;|&nbsp; +91-92295-90739</span>
+                <span>+91-91109-53990 &nbsp;|&nbsp; +91-91020-13708</span>
               </li>
               <li className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
                 <Mail className="w-5 h-5 text-primary shrink-0" />

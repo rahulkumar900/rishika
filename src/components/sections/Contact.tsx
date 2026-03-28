@@ -105,7 +105,7 @@ export function Contact() {
                   <div>
                     <h4 className="font-bold uppercase text-foreground">Call Us</h4>
                     <p className="text-slate-500 text-sm mt-1 leading-relaxed">
-                      +91-76340-84447<br/>+91-92295-90739
+                      +91-91109-53990<br/>+91-91020-13708
                     </p>
                   </div>
                 </div>

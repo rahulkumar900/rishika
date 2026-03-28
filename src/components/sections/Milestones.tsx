@@ -93,10 +93,10 @@ export function Milestones() {
                   <div className="hidden md:block md:w-1/2" />
 
                   {/* Card Content */}
-                  <div className={`w-full pl-28 md:pl-0 md:w-1/2 ${
+                  <div className={`w-full pl-20 pr-4 md:pl-0 md:pr-0 md:w-1/2 ${
                     isEven ? "md:pr-16" : "md:pl-16"
                   }`}>
-                    <div className="bg-slate-900 border-l-4 border-primary md:border-l-0 md:border-b-4 md:border-primary p-6 md:p-8 hover:bg-slate-800 transition-colors shadow-xl group border-t border-r border-slate-800 h-full">
+                    <div className="bg-slate-900 border-l-4 border-primary md:border-l-0 md:border-b-4 md:border-primary p-5 md:p-8 hover:bg-slate-800 transition-colors shadow-xl group border-t border-r border-slate-800 h-full">
                       <div className="flex items-baseline gap-4 mb-4">
                         <span className="text-5xl font-black text-slate-800 group-hover:text-primary/20 transition-colors pointer-events-none">
                           {milestone.year}

@@ -25,22 +25,22 @@ export function Hero() {
               Established 2019
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] uppercase">
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] uppercase">
               Heavy Duty <br />
-              <span className="text-primary">Construction</span><br />
+              <span className="text-primary text-outline-sm">Construction</span><br />
               & Maintenance
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-400 max-w-[600px] border-l-4 border-primary pl-4 font-medium">
+            <p className="text-base md:text-xl text-slate-400 max-w-[600px] border-l-4 border-primary pl-4 font-medium">
               Delivering uncompromising quality infrastructure, PHED projects, and water facility redevelopment across Bihar and Jharkhand.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-4 w-fit">
+            <div className="flex flex-col sm:flex-row gap-4 mt-10 w-full sm:w-fit">
               <Link 
                 href="#contact" 
                 className={buttonVariants({ 
                   size: "lg", 
-                  className: "h-14 px-8 text-lg font-bold uppercase tracking-wide bg-primary text-primary-foreground hover:bg-primary/90 rounded-none w-full sm:w-auto flex items-center justify-center whitespace-nowrap" 
+                  className: "h-16 px-10 text-lg font-bold uppercase tracking-wide bg-primary text-primary-foreground hover:bg-primary/90 rounded-none w-full sm:w-auto min-w-[240px] flex items-center justify-center whitespace-nowrap transition-all" 
                 })}
               >
                 Start a Project
@@ -51,7 +51,7 @@ export function Hero() {
                 className={buttonVariants({ 
                   variant: "outline", 
                   size: "lg", 
-                  className: "h-14 px-8 text-lg font-bold uppercase tracking-wide border-2 border-slate-700 hover:bg-slate-800 text-slate-300 rounded-none bg-transparent w-full sm:w-auto flex items-center justify-center whitespace-nowrap" 
+                  className: "h-16 px-10 text-lg font-bold uppercase tracking-wide border-2 border-slate-400 dark:border-slate-600 hover:bg-slate-800 text-slate-300 rounded-none bg-transparent w-full sm:w-auto min-w-[240px] flex items-center justify-center whitespace-nowrap transition-all" 
                 })}
               >
                 View Capabilities
@@ -92,7 +92,7 @@ export function Hero() {
                  {/* Hazard Stripes */}
                  <div className="absolute top-0 left-0 w-full h-2 bg-[repeating-linear-gradient(45deg,var(--color-primary),var(--color-primary)_10px,transparent_10px,transparent_20px)] z-20" />
                  
-                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541888081622-3a323adff569?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity group-hover:opacity-60 transition-opacity duration-500" />
+                 <div className="absolute inset-0 bg-[url('/hero-bg.png')] bg-cover bg-center opacity-60 mix-blend-luminosity group-hover:opacity-100 transition-opacity duration-700" />
                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
                  
                  <div className="absolute bottom-6 left-6 right-6">
