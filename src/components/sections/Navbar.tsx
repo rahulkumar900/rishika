@@ -60,7 +60,13 @@ export function Navbar() {
               </a>
             ))}
             </div>
-            <Button size="lg" className="font-bold uppercase tracking-wider">Get a Quote</Button>
+            <Button 
+              size="lg" 
+              className="font-bold uppercase tracking-wider"
+              onClick={() => window.location.href = "#contact"}
+            >
+              Get a Quote
+            </Button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -93,7 +99,16 @@ export function Navbar() {
                 {link.name}
               </a>
             ))}
-            <Button size="lg" className="w-full mt-4 h-14 text-lg font-bold uppercase">Get a Quote</Button>
+            <Button 
+              size="lg" 
+              className="w-full mt-4 h-14 text-lg font-bold uppercase"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                window.location.href = "#contact";
+              }}
+            >
+              Get a Quote
+            </Button>
           </div>
         </motion.div>
       )}

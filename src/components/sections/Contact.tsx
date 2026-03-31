@@ -21,7 +21,7 @@ export function Contact() {
     );
 
     // Redirect to the default mail client securely
-    window.location.href = `mailto:Rishikacservice@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:rishikacservice@gmail.com?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -115,7 +115,7 @@ export function Contact() {
                   </div>
                   <div>
                     <h4 className="font-bold uppercase text-foreground">Email</h4>
-                    <p className="text-slate-500 text-sm mt-1">Rishikacservice@gmail.com</p>
+                    <p className="text-slate-500 text-sm mt-1">rishikacservice@gmail.com</p>
                   </div>
                 </div>
               </div>

@@ -85,9 +85,9 @@ export function About() {
                 className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/20 to-transparent" />
-              <div className="absolute bottom-6 left-6 text-white text-left">
-                <div className="text-2xl font-black uppercase tracking-tight">Management</div>
-                <div className="text-primary font-bold uppercase text-xs tracking-[0.2em]">Leadership & Vision</div>
+              <div className="absolute bottom-6 left-6 text-white text-left z-10">
+                <div className="text-2xl font-black uppercase tracking-tight">Shishupal Kumar</div>
+                <div className="text-primary font-bold uppercase text-xs tracking-[0.2em] mt-1">Director</div>
               </div>
             </div>
           </div>
@@ -110,8 +110,13 @@ export function About() {
             </div>
             <div className="pt-4 flex items-center gap-4">
               <div className="w-12 h-1.5 bg-primary" />
-              <div className="font-black uppercase tracking-[0.15em] text-sm md:text-base text-slate-900 dark:text-white">
-                Director, Rishika Cleaner Service
+              <div>
+                <div className="font-black uppercase tracking-[0.15em] text-base md:text-lg text-slate-900 dark:text-white mb-1">
+                  Shishupal Kumar
+                </div>
+                <div className="font-bold uppercase tracking-[0.2em] text-xs text-slate-500 dark:text-slate-400">
+                  Director, Rishika Cleaner Service
+                </div>
               </div>
             </div>
           </div>
