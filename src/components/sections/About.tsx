@@ -12,7 +12,7 @@ export function About() {
 
   const xText1 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
   const xText2 = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const easeExpoOut = [0.16, 1, 0.3, 1];
+  const easeExpoOut: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
   return (
     <section ref={containerRef} id="about" className="py-32 md:py-48 bg-[#050505] text-white relative overflow-hidden">

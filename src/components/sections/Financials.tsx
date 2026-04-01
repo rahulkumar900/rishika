@@ -9,7 +9,7 @@ const turnoverData = [
 ];
 
 export function Financials() {
-  const easeExpoOut = [0.16, 1, 0.3, 1];
+  const easeExpoOut: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
   return (
     <section id="financials" className="py-24 md:py-40 bg-[#050505] relative overflow-hidden text-white border-t border-white/10">

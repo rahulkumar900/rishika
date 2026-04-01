@@ -21,7 +21,7 @@ export function Contact() {
     window.location.href = `mailto:rishikacservice@gmail.com?subject=${subject}&body=${body}`;
   };
 
-  const easeExpoOut = [0.16, 1, 0.3, 1];
+  const easeExpoOut: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
   return (
     <section id="contact" className="py-24 md:py-40 bg-primary relative border-t-2 border-black">

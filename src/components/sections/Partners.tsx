@@ -16,7 +16,7 @@ const partners = [
 ];
 
 export function Partners() {
-  const easeExpoOut = [0.16, 1, 0.3, 1];
+  const easeExpoOut: [number, number, number, number] = [0.16, 1, 0.3, 1];
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
