@@ -1,126 +1,141 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Target, Lightbulb, ShieldCheck } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export function About() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const xText1 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const xText2 = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const easeExpoOut = [0.16, 1, 0.3, 1];
+
   return (
-    <section id="about" className="py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
-      {/* Accent corner */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHBhdGggZD0nTTEwIDBMMCAxMFYwSDEwWicgZmlsbD0nI2VhYjMwOCcgLz4KPC9zdmc+')] opacity-20" />
+    <section ref={containerRef} id="about" className="py-32 md:py-48 bg-[#050505] text-white relative overflow-hidden">
       
-      <div className="container px-4 md:px-6 mx-auto relative z-10">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-foreground">
-            About <span className="text-primary">Rishika</span>
-          </h2>
-          <div className="w-20 h-2 bg-primary mx-auto"></div>
-        </div>
+      {/* Massive Scrolling Typography Background */}
+      <div className="absolute top-10 md:top-32 left-0 w-[200vw] sm:w-[150vw] pointer-events-none opacity-5">
+        <motion.div style={{ x: xText1 }} className="text-[15vw] font-black uppercase whitespace-nowrap leading-[0.8] tracking-tighter">
+          WE DON'T JUST BUILD STRUCTURES
+        </motion.div>
+        <motion.div style={{ x: xText2 }} className="text-[15vw] font-black uppercase whitespace-nowrap leading-[0.8] tracking-tighter text-outline-sm text-transparent ml-[20vw]">
+          WE BUILD ENDURING TRUST
+        </motion.div>
+      </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      <div className="container px-4 md:px-10 mx-auto relative z-10 w-full">
+        
+        {/* Core Philosophy Statement */}
+        <div className="max-w-4xl mb-40">
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: "8rem" }}
+            transition={{ duration: 1.5, ease: easeExpoOut }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="h-[2px] bg-primary mb-12"
+          />
+          <motion.p 
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex flex-col bg-slate-50 dark:bg-slate-950 p-8 border border-slate-200 dark:border-slate-800 text-center items-center rounded-sm"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.5, ease: easeExpoOut }}
+            className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-10"
           >
-            <div className="bg-primary/20 p-4 rounded-full mb-6">
-              <Target className="w-10 h-10 text-primary" />
-            </div>
-            <h3 className="text-2xl font-black uppercase mb-4 text-foreground">Our Mission</h3>
-            <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-              To provide high-quality construction services at competitive prices while maintaining unmatched professionalism and integrity across all sectors.
-            </p>
-          </motion.div>
-
+            A decade of <span className="text-primary italic font-serif">precision</span> in massive infrastructure &amp; civic engineering.
+          </motion.p>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col bg-slate-50 dark:bg-slate-950 p-8 border border-slate-200 dark:border-slate-800 text-center items-center rounded-sm"
+            transition={{ delay: 0.5, duration: 1.5 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 text-sm text-white/50 font-medium tracking-wide uppercase mt-20"
           >
-            <div className="bg-primary/20 p-4 rounded-full mb-6">
-              <Lightbulb className="w-10 h-10 text-primary" />
+            <div>
+              <div className="text-white text-3xl font-black mb-2 tracking-tighter">01. Mission</div>
+              Extreme quality at competitive scales unconditionally.
             </div>
-            <h3 className="text-2xl font-black uppercase mb-4 text-foreground">Our Vision</h3>
-            <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-              To confidently face challenges through innovative ideas and consistently deliver the best infrastructural results, even in difficult civic situations.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col bg-primary text-primary-foreground p-8 border border-primary text-center items-center shadow-lg rounded-sm"
-          >
-            <div className="bg-slate-900/10 p-4 rounded-full mb-6">
-              <ShieldCheck className="w-10 h-10 text-primary-foreground" />
+            <div>
+              <div className="text-white text-3xl font-black mb-2 tracking-tighter">02. Vision</div>
+              Innovating through difficult civic situations smoothly.
             </div>
-            <h3 className="text-2xl font-black uppercase mb-4">Quality Policy</h3>
-            <p className="text-primary-foreground/90 font-medium leading-relaxed">
-              Every deliverable is scrutinized by our dedicated Quality Group and Civil Assurance team, ensuring compliance with strict internal standards and modern technologies.
-            </p>
+            <div>
+              <div className="text-white text-3xl font-black mb-2 tracking-tighter">03. Ethos</div>
+              Strict compliance &amp; internal Civil Assurance.
+            </div>
           </motion.div>
         </div>
 
-        {/* From the Director's Desk */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-24 grid lg:grid-cols-2 gap-12 items-center bg-slate-50 dark:bg-slate-950 p-8 md:p-12 border border-slate-200 dark:border-slate-800 rounded-3xl relative overflow-hidden group shadow-2xl"
-        >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+        {/* The Director Brutalist Block */}
+        <div className="grid lg:grid-cols-12 gap-10 mt-32 md:mt-64 relative border-t border-white/10 pt-10">
           
-          <div className="relative">
-            <div className="aspect-square md:aspect-[4/5] relative rounded-2xl overflow-hidden border-4 border-white dark:border-slate-900 shadow-xl max-w-[280px] md:max-w-sm mx-auto lg:mx-0">
+          {/* Vertical Title */}
+          <div className="lg:col-span-1 hidden lg:flex justify-center">
+            <div className="[writing-mode:vertical-lr] rotate-180 uppercase tracking-[0.5em] text-xs font-bold text-white/30 pt-10">
+              Leadership &amp; Management
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 relative group">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, clipPath: "inset(100% 0 0 0)" }}
+              whileInView={{ opacity: 1, scale: 1, clipPath: "inset(0% 0 0 0)" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.8, ease: easeExpoOut }}
+              className="aspect-[3/4] overflow-hidden bg-white/5"
+            >
               <img 
                 src="/director.webp" 
-                alt="Director of Rishika Cleaner" 
-                className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                alt="Shishupal Kumar"
+                className="w-full h-full object-cover grayscale mix-blend-luminosity opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/20 to-transparent" />
-              <div className="absolute bottom-6 left-6 text-white text-left z-10">
-                <div className="text-2xl font-black uppercase tracking-tight">Shishupal Kumar</div>
-                <div className="text-primary font-bold uppercase text-xs tracking-[0.2em] mt-1">Director</div>
-              </div>
-            </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 1, duration: 1, ease: easeExpoOut }}
+              className="absolute -bottom-4 -right-4 w-32 h-32 border-b border-r border-primary origin-bottom-right pointer-events-none"
+            />
           </div>
 
-          <div className="space-y-8 text-left">
-            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-primary/10 border border-primary/20 text-primary rounded-full text-xs font-black uppercase tracking-widest">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              Director&apos;s Message
+          <div className="lg:col-span-6 lg:pl-10 flex flex-col justify-end pb-10">
+            <div className="overflow-hidden mb-6">
+              <motion.h3 
+                initial={{ y: "100%" }}
+                whileInView={{ y: "0%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: easeExpoOut }}
+                className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white"
+              >
+                Shishupal Kumar
+              </motion.h3>
             </div>
-            <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-slate-900 dark:text-white leading-tight">
-              Building the <span className="text-primary">Future</span> through Dedication
-            </h3>
-            <div className="space-y-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed italic border-l-4 border-primary/30 pl-6 text-lg md:text-xl">
-              <p>
-                &quot;At Rishika Cleaner Service, our philosophy is simple: delivering excellence without compromise. Every project we undertake is a commitment to the growth and development of our region.&quot;
-              </p>
-              <p>
-                &quot;We don&apos;t just build structures; we build trust through quality engineering and consistent results in construction and civic maintenance.&quot;
-              </p>
-            </div>
-            <div className="pt-4 flex items-center gap-4">
-              <div className="w-12 h-1.5 bg-primary" />
-              <div>
-                <div className="font-black uppercase tracking-[0.15em] text-base md:text-lg text-slate-900 dark:text-white mb-1">
-                  Shishupal Kumar
-                </div>
-                <div className="font-bold uppercase tracking-[0.2em] text-xs text-slate-500 dark:text-slate-400">
-                  Director, Rishika Cleaner Service
-                </div>
-              </div>
-            </div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 1 }}
+              className="text-primary font-bold uppercase tracking-[0.3em] text-sm md:text-base mb-12"
+            >
+              Managing Director
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 1.5 }}
+              className="text-xl md:text-3xl font-medium leading-[1.4] text-white/70"
+            >
+              "We approach every project not as a contract, but as a commitment to the region's enduring growth. Excellence without compromise."
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

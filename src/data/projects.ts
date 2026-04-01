@@ -94,5 +94,57 @@ export const projectsData = [
       "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1504307651254-35680f356f12?q=80&w=2670&auto=format&fit=crop"
     ]
+  },
+  {
+    slug: "amrut-kalaburagi-chincholi-wadi",
+    title: "AMRUT 2.0 — Kalaburagi Towns",
+    category: "Water Supply Scheme",
+    client: "Karnataka Urban Water Supply & Sewerage Board",
+    location: "Kalaburagi District, Karnataka",
+    year: "2024",
+    duration: "Ongoing — DBOT (5 Years O&M + 1 Year DLP)",
+    status: "Running",
+    image: "https://images.unsplash.com/photo-1519455953755-af066f52f1a6?q=80&w=2670&auto=format&fit=crop",
+    description: "Providing comprehensive Water Supply Scheme to Chincholi, Chittapur, Wadi, Kamalapur, Sedam & Kalagi towns in Kalaburagi District under the Government of India's AMRUT 2.0 mission. Executed through Design, Build, Operation and Transfer (DBOT) mode as a Lumpsum Tender with no variation clause — covering complete water infrastructure design, execution, and long-term operational management for six urban towns.",
+    challenge: "Designing and simultaneously executing a multi-town integrated water supply network with no variation allowed, requiring absolute precision in cost estimation, engineering design, and seamless coordination across six geographically dispersed urban areas.",
+    solution: "Deployed dedicated DBOT specialist teams for each town with a centralized command hub in Kalaburagi, employing advanced GIS-based pipeline route mapping and BIM modeling to eliminate design ambiguity and ensure zero cost overruns under the lumpsum contractual structure.",
+    scope: [
+      "End-to-end water supply scheme design for 6 towns: Chincholi, Chittapur, Wadi, Kamalapur, Sedam & Kalagi",
+      "Construction of intake structures, water treatment plants and pumping stations",
+      "Distribution network pipeline laying across all six urban town jurisdictions",
+      "5-year Operation & Maintenance including 1-year Defect Liability Period (DLP)",
+      "Transfer of complete water infrastructure to urban local bodies at project close"
+    ],
+    impact: "Delivering 24x7 pressurized safe drinking water to hundreds of thousands of urban residents across six towns under Kalaburagi District, fulfilling the AMRUT 2.0 mandate for universal water coverage.",
+    gallery: [
+      "https://images.unsplash.com/photo-1519455953755-af066f52f1a6?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?q=80&w=2670&auto=format&fit=crop"
+    ]
+  },
+  {
+    slug: "amrut-kalaburagi-hatti-manvi",
+    title: "AMRUT 2.0 — Kalaburagi Zone",
+    category: "Water Supply Scheme",
+    client: "Karnataka Urban Water Supply & Sewerage Board",
+    location: "Kalaburagi Zone, Karnataka",
+    year: "2024",
+    duration: "Ongoing — DBOT (5 Years O&M + 1 Year DLP)",
+    status: "Running",
+    image: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=2670&auto=format&fit=crop",
+    description: "Providing a large-scale Water Supply Scheme to Hatti, Kavithal, Manvi, Maski and Turvihal towns in Kalaburagi Zone under the AMRUT 2.0 programme. Executed through Design, Build, Operation and Transfer (DBOT) mode — encompassing complete hydraulic engineering design, construction of all water infrastructure components, and a comprehensive 5-year operational management commitment.",
+    challenge: "Integrating five towns with varying population densities, existing pipe networks in differing states of disrepair, and diverse topographic elevations into a single cohesive, balanced water distribution master plan.",
+    solution: "Conducted extensive hydraulic modelling and demand forecasting for each town individually before developing a unified zonal water balance plan. Standardized on a single pipe procurement specification and adopted pre-fabricated pump house designs to accelerate construction timelines across all five towns simultaneously.",
+    scope: [
+      "Water supply scheme design and build for Hatti, Kavithal, Manvi, Maski & Turvihal",
+      "Source development, intake works and water treatment facilities",
+      "Rising main and distribution network laying across the Kalaburagi Zone",
+      "Town-level service reservoirs and household connection works",
+      "5-year O&M contract including 1-year DLP with performance guarantees"
+    ],
+    impact: "Ensuring reliable, metered, and safe potable water access for over 200,000 residents across five historically water-stressed towns in the Kalaburagi Zone, directly contributing to India's AMRUT 2.0 universal urban water coverage targets.",
+    gallery: [
+      "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1579705745172-e146eb0d588c?q=80&w=2670&auto=format&fit=crop"
+    ]
   }
 ];

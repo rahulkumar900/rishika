@@ -30,6 +30,10 @@ export const metadata: Metadata = {
   }
 };
 
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import { Preloader } from "@/components/ui/Preloader";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,8 +41,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans scroll-smooth", geist.variable)}>
-      <body className="antialiased min-h-screen bg-background text-foreground flex flex-col">
-        {children}
+      <body className="antialiased min-h-screen bg-background text-foreground flex flex-col md:cursor-none">
+        <CustomCursor />
+        <Preloader />
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

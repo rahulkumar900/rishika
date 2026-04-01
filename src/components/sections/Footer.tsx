@@ -1,69 +1,68 @@
 "use client";
 
-import { Droplets, Mail, MapPin, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-slate-950 text-slate-300 py-16 border-t border-slate-800">
-      <div className="container px-4 md:px-6 mx-auto">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="bg-[#050505] text-white pt-32 pb-10 border-t border-white/10 relative overflow-hidden">
+      <div className="container px-4 md:px-10 mx-auto relative z-10 w-full">
+        
+        {/* Massive Closing Branding */}
+        <div className="w-full flex justify-center mb-32">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[12vw] font-black tracking-tighter uppercase leading-none text-center"
+          >
+            Rishika<span className="text-primary">.</span>
+          </motion.div>
+        </div>
 
-          {/* Brand Info */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-white pb-2 overflow-hidden">
-              <img src="/logo.png" alt="Rishika Cleaner Service Logo" className="h-20 w-auto object-contain " />
-            </div>
-            <p className="text-sm text-slate-400 max-w-xs leading-relaxed">
-              Premium construction, maintenance, and water facility services across Bihar and Jharkhand since 2019.
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-t border-white/20 pt-16 mb-24">
+          
+          <div className="flex flex-col gap-6 lg:col-span-2">
+            <img src="/logo.png" alt="Rishika Cleaner Service Logo" className="h-20 w-auto object-contain self-start" />
+            <p className="text-xl font-medium text-white/50 max-w-sm">
+              Premium construction, maintenance, and heavy execution across Bihar and Jharkhand since 2019.
             </p>
-            <div className="inline-block px-3 py-1 rounded bg-slate-900 border border-slate-800 text-xs font-mono text-slate-400 mt-2">
-              GSTIN: 10DZPB0421H1ZD
+            <div className="mt-4">
+              <span className="text-sm font-bold uppercase tracking-[0.2em] text-primary">GSTIN: 10DZPB0421H1ZD</span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-white tracking-wide uppercase text-sm">Quick Links</h4>
-            <ul className="space-y-3 pl-0 text-sm">
-              <li><a href="#" className="hover:text-primary transition-colors">Home</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Services</a></li>
-              <li><a href="#about" className="hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="#projects" className="hover:text-primary transition-colors">Projects</a></li>
-            </ul>
+          <div className="flex flex-col gap-6">
+            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white/30">Index</h4>
+            <div className="flex flex-col gap-4 text-xl font-black uppercase tracking-tighter">
+              <Link href="#about" className="hover:text-primary transition-colors">About Us</Link>
+              <Link href="#services" className="hover:text-primary transition-colors">Capabilities</Link>
+              <Link href="#projects" className="hover:text-primary transition-colors">The Work</Link>
+              <Link href="#financials" className="hover:text-primary transition-colors">Financials</Link>
+            </div>
           </div>
 
-          {/* Contact Details */}
-          <div className="space-y-4 lg:col-span-2 text-sm">
-            <h4 className="font-semibold text-white tracking-wide uppercase">Contact Us</h4>
-            <ul className="space-y-4">
-              <li className="flex gap-3 text-slate-400">
-                <MapPin className="w-5 h-5 text-primary shrink-0" />
-                <span className="leading-relaxed">
-                  1st Floor, Rishika Tower,<br />
-                  Sathopur, Biharsharif, Nalanda,<br />
-                  Bihar - 803101
-                </span>
-              </li>
-              <li className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>+91-91109-53990 &nbsp;|&nbsp; +91-91020-13708</span>
-              </li>
-              <li className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <a href="mailto:rishikacservice@gmail.com">rishikacservice@gmail.com</a>
-              </li>
-            </ul>
+          <div className="flex flex-col gap-6">
+            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white/30">Socials</h4>
+            <div className="flex flex-col gap-4 text-xl font-black uppercase tracking-tighter text-white/50">
+              <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
+              <a href="#" className="hover:text-white transition-colors">Instagram</a>
+              <a href="#" className="hover:text-white transition-colors">Twitter (X)</a>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Floor */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-xs font-bold uppercase tracking-[0.2em] text-white/30 border-t border-white/10 pt-10">
+          <div>© {new Date().getFullYear()} Rishika Cleaner Service.</div>
+          <div className="flex gap-8 mt-4 md:mt-0">
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} Rishika Cleaner Service. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-          </div>
-        </div>
       </div>
     </footer>
   );

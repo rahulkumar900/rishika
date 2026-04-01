@@ -134,3 +134,38 @@
     background-image: linear-gradient(to right, oklch(0.8 0 0 / 5%) 1px, transparent 1px),
                       linear-gradient(to bottom, oklch(0.8 0 0 / 5%) 1px, transparent 1px);
 }
+
+/* ── Custom Scrollbar ─────────────────────────────────────────── */
+
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #b8930a, #eab308, #b8930a);
+  border-radius: 99px;
+  border: 2px solid #0a0a0a;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #eab308, #fde047, #eab308);
+  box-shadow: 0 0 8px rgba(234, 179, 8, 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: #0a0a0a;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #eab308 #0a0a0a;
+}

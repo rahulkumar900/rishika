@@ -2,9 +2,11 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 const partners = [
   { name: "Nalanda Engicon Pvt Ltd", logo: "/logos/nalanda.jpg" },
+  { name: "Ganadhi Pati Construction Pvt Ltd", logo: "/logos/gc.png" },
   { name: "Jindal Infra", logo: "/logos/jindal.png" },
   { name: "KCC Infra", logo: "/logos/kcc.png" },
   { name: "L&T", logo: "/logos/l-and-t.avif" },
@@ -13,89 +15,71 @@ const partners = [
   { name: "TERI", logo: "/logos/TERI.png" },
 ];
 
-// Duplicate the list for a seamless infinite loop
-const marqueeItems = [...partners, ...partners];
-
 export function Partners() {
+  const easeExpoOut = [0.16, 1, 0.3, 1];
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!scrollerRef.current) return;
+    const scrollerContent = Array.from(scrollerRef.current.children);
+    scrollerContent.forEach((item) => {
+      const duplicatedItem = item.cloneNode(true);
+      scrollerRef.current?.appendChild(duplicatedItem);
+    });
+  }, []);
+
   return (
-    <section className="relative py-24 bg-slate-950 border-y border-slate-900/50 overflow-hidden">
-      {/* Premium Background Texture */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,var(--color-primary)_opacity-10,transparent_50%)] opacity-20" />
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px]" />
+    <section className="relative py-24 md:py-40 bg-white border-t border-black overflow-hidden flex flex-col justify-center">
 
-      <div className="relative z-10">
-        {/* Header */}
-        <div className="container px-4 md:px-6 mx-auto">
-          <div className="flex flex-col items-center text-center gap-4 mb-16">
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: "3.5rem" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="h-1.5 bg-primary rounded-full"
-            />
-            <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-slate-100">
-              Strategic <span className="text-primary italic">Partners </span> &amp; Clients
-            </h2>
-            <p className="text-slate-400 max-w-2xl font-medium text-sm md:text-base leading-relaxed">
-              Collaborating with India's leading organizations to deliver unmatched quality in
-              heavy infrastructure and public health engineering.
-            </p>
-          </div>
-        </div>
+      <div className="container px-4 md:px-10 mx-auto w-full mb-16 md:mb-24">
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: easeExpoOut }}
+          className="text-[2.8rem] sm:text-6xl md:text-8xl lg:text-[10rem] font-black uppercase tracking-tighter text-[#050505] leading-[0.85]"
+        >
+          CLIENTS<span className="text-primary">.</span>
+        </motion.h2>
+      </div>
 
-        {/* Scrolling Marquee */}
-        <div className="relative w-full overflow-hidden">
-          {/* Left fade */}
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 z-10 bg-gradient-to-r from-slate-950 to-transparent" />
-          {/* Right fade */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 z-10 bg-gradient-to-l from-slate-950 to-transparent" />
+      <div className="relative w-full overflow-hidden flex items-center border-y-2 border-black bg-[#050505] py-16 md:py-24">
 
-          <div
-            className="flex gap-6 w-max"
-            style={{
-              animation: "partners-scroll 28s linear infinite",
-            }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLDivElement).style.animationPlayState = "paused")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLDivElement).style.animationPlayState = "running")
-            }
-          >
-            {marqueeItems.map((partner, index) => (
-              <div
-                key={`${partner.name}-${index}`}
-                className="group flex flex-col items-center gap-3 flex-shrink-0 w-44"
-              >
-                {/* White logo card */}
-                <div className="relative w-full bg-white rounded-md p-4 border border-slate-200/10 group-hover:border-primary/60 shadow-sm group-hover:shadow-primary/10 group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-                  {/* Corner accent */}
-                  <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-transparent group-hover:border-primary transition-colors duration-300 rounded-tl-md" />
-                  <div className="relative h-14 w-full grayscale group-hover:grayscale-0 transition-all duration-300">
-                    <Image
-                      src={partner.logo}
-                      alt={`${partner.name} logo`}
-                      fill
-                      className="object-contain"
-                      sizes="176px"
-                    />
-                  </div>
-                </div>
-                {/* Partner name label */}
-                <span className="text-slate-500 group-hover:text-slate-300 text-xs font-semibold uppercase tracking-widest transition-colors duration-300 text-center leading-tight">
-                  {partner.name}
-                </span>
+        {/* Fade Edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
+
+        <div
+          ref={scrollerRef}
+          className="flex min-w-full shrink-0 gap-8 md:gap-16 w-max items-center animate-scroll hover:[animation-play-state:paused] pointer-events-auto cursor-pointer px-4"
+        >
+          {partners.map((partner, index) => (
+            <div
+              key={`${partner.name}-${index}`}
+              className="flex items-center justify-center shrink-0 w-48 md:w-64 lg:w-80 group"
+            >
+              <div className="relative h-24 md:h-32 w-full bg-white/5 rounded-2xl md:rounded-3xl p-4 md:p-8 backdrop-blur-sm border border-white/10 opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 group-hover:bg-white transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+                <Image
+                  src={partner.logo}
+                  alt={`${partner.name} logo`}
+                  fill
+                  className="object-contain p-2 md:p-4 transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 768px) 192px, 320px"
+                />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Keyframe animation injected via a style tag */}
       <style>{`
-        @keyframes partners-scroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        @keyframes scroll {
+          to {
+            transform: translate(calc(-50% - 1rem));
+          }
+        }
+        .animate-scroll {
+          animation: scroll 40s linear infinite;
         }
       `}</style>
     </section>

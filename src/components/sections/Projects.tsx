@@ -1,68 +1,111 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { projectsData } from "@/data/projects";
+import { useRef } from "react";
 
 export function Projects() {
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    // start tracking when section hits the top, stop when section bottom hits viewport bottom
+    offset: ["start start", "end end"]
+  });
+
+  // Animate a number from 0 to 100
+  const progress100 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  
+  // Create a template string evaluated every frame by the browser.
+  // When progress = 100, x = calc(-100% + 100vw). 
+  // This physically locks the rightmost edge of the track EXACTLY to the right edge of the screen!
+  const x = useMotionTemplate`calc(-${progress100}% + ${progress100}vw)`;
+
   return (
-    <section id="projects" className="py-24 bg-slate-950 border-t border-slate-900">
-      <div className="container px-4 md:px-6 mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white mb-4">
-              Featured <span className="text-primary">Projects</span>
+    <section 
+      id="projects" 
+      ref={targetRef} 
+      className="relative bg-[#050505] h-[400vh]"
+    >
+      <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+        
+        {/* Massive Background Title */}
+        <div className="absolute top-20 left-10 text-white/5 text-[15vw] font-black uppercase tracking-tighter whitespace-nowrap pointer-events-none select-none z-0">
+          FEATURED EXECUTIONS
+        </div>
+
+        <motion.div 
+          style={{ x }} 
+          className="flex w-max relative z-10 h-[70vh] items-center"
+        >
+          {/* Spacer before content */}
+          <div className="w-[10vw] shrink-0 h-full" />
+          
+          {/* Intro Typography Slide */}
+          <div className="w-[85vw] md:w-[40vw] shrink-0 flex flex-col justify-center h-full mr-10 md:mr-32">
+            <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase tracking-tighter text-white leading-[0.8]">
+              The <br/><span className="text-primary italic font-serif">Work.</span>
             </h2>
-            <div className="w-24 h-2 bg-primary mb-6"></div>
-            <p className="text-lg text-slate-400 font-medium leading-relaxed">
-              Highlighting major infrastructural transformations spanning from critical railway lines to massive public sanitation and water supply projects.
+            <div className="w-20 h-1 bg-primary mt-12 mb-8" />
+            <p className="text-white/50 text-xl md:text-2xl font-medium max-w-md leading-relaxed">
+              Highlighting major infrastructural transformations spanning from critical railway lines to massive public sanitation projects.
             </p>
           </div>
-        </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projectsData.map((project, index) => (
-            <motion.div
-              key={project.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
-              <Link href={`/projects/${project.slug}`} className="block group relative overflow-hidden bg-slate-900 border border-slate-800">
-                <div className="aspect-[16/9] overflow-hidden relative">
-                  <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors z-10 duration-500" />
+          {/* Project Horizontal Slides */}
+          <div className="flex gap-10">
+            {projectsData.map((project) => (
+              <div key={project.slug} className="w-[85vw] md:w-[60vw] lg:w-[45vw] shrink-0 h-[60vh] md:h-[75vh] relative group flex flex-col justify-center">
+                <Link href={`/projects/${project.slug}`} className="block relative w-full h-full overflow-hidden bg-white/5 border border-white/10">
                   <div 
-                    className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-80 mix-blend-luminosity group-hover:mix-blend-normal"
+                    className="w-full h-full bg-cover bg-center grayscale mix-blend-luminosity opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)]"
                     style={{ backgroundImage: `url(${project.image})` }}
                   />
-                  {/* View Details Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20 bg-slate-900/40 backdrop-blur-sm">
-                    <div className="bg-primary text-primary-foreground font-bold uppercase tracking-wider px-6 py-3 border border-primary-foreground">
-                      View full detail
+                  
+                  {/* Heavy Gradient Overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-80" />
+
+                  {/* Live Badge for running projects */}
+                  {(project as { status?: string }).status === "Running" && (
+                    <div className="absolute top-8 left-8 flex items-center gap-2 bg-emerald-500/20 backdrop-blur-sm border border-emerald-500/50 text-emerald-400 font-black uppercase tracking-[0.2em] text-[10px] px-3 py-1.5">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                      </span>
+                      Live
+                    </div>
+                  )}
+
+                  {/* Overlay Text Details */}
+                  <div className="absolute bottom-8 left-8 right-8">
+                    <div className="overflow-hidden">
+                      <h3 className="text-4xl md:text-5xl lg:text-5xl font-black uppercase tracking-tighter text-white transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                        {project.title}
+                      </h3>
+                    </div>
+                    <div className="overflow-hidden mt-2 md:mt-4">
+                      <div className="text-primary font-bold uppercase tracking-[0.2em] text-[10px] md:text-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                        {project.category} &mdash; {project.location}
+                      </div>
                     </div>
                   </div>
-                </div>
+                  
+                  {/* Floating View Button */}
+                  <div className="absolute top-8 right-8 w-16 h-16 md:w-20 md:h-20 bg-primary rounded-full flex items-center justify-center translate-y-[-150%] group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_30px_rgba(234,179,8,0.3)] text-[#050505]">
+                    <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8" />
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
 
-                <div className="p-6 md:p-8 relative z-20 -mt-12 bg-slate-900 mx-6 mb-6 border-l-4 border-primary group-hover:border-white transition-colors">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-sm font-bold text-primary tracking-widest uppercase">
-                      {project.category}
-                    </span>
-                    <ArrowUpRight className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="text-2xl font-bold uppercase text-white mb-2">{project.title}</h3>
-                  <div className="flex items-center gap-4 text-sm text-slate-400 font-medium">
-                    <span className="flex items-center gap-1">{project.location}</span>
-                    <span className="w-1 h-1 bg-slate-600 rounded-full" />
-                    <span className="truncate">{project.client}</span>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+          {/* Massive Outro Spacer */}
+          {/* This ensures the very last card is fully pulled into the center/left of the screen BEFORE the section un-pins, preventing the abrupt jump to the next section. */}
+          <div className="w-[10vw] md:w-[30vw] shrink-0 h-full pointer-events-none" />
+          
+        </motion.div>
       </div>
     </section>
   );
