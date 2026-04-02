@@ -146,5 +146,83 @@ export const projectsData = [
       "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=2670&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1579705745172-e146eb0d588c?q=80&w=2670&auto=format&fit=crop"
     ]
+  },
+  {
+    slug: "cpwd-gpoa-housekeeping",
+    title: "CPWD GPOA Block-3",
+    category: "Mechanized Housekeeping",
+    client: "Central Public Works Department (CPWD), Govt. of India",
+    location: "Netaji Nagar, New Delhi",
+    year: "2025",
+    duration: "As per NIT terms",
+    status: "Running",
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2670&auto=format&fit=crop",
+    description: "Awarded the contract for Mechanized Housekeeping services of GPOA Block-3 at Netaji Nagar, New Delhi by the Central Public Works Department (CPWD), Government of India, under NIT No. 06/CE/CVPZ-1/2025. This project involves deploying state-of-the-art mechanized cleaning equipment and a trained workforce to maintain impeccable hygiene standards across this critical government complex.",
+    challenge: "Maintaining the highest cleanliness benchmarks in a continuously occupied government residential complex while adhering strictly to CPWD's stringent specifications and quality audit requirements.",
+    solution: "Deployed a dedicated mechanized housekeeping team equipped with industrial sweepers, scrubbers, and eco-friendly chemicals aligned with CPWD's environmental compliance standards, managed by a resident supervisor conducting daily quality checks.",
+    scope: [
+      "Daily mechanized sweeping and mopping of all floors, corridors, and common areas",
+      "Deep cleaning of lobbies, staircases, lifts, and common toilets",
+      "Waste management, collection, and disposal as per municipal norms",
+      "Façade and external area maintenance including parking zones",
+      "Periodic specialized cleaning using high-pressure washers and steam sanitizers"
+    ],
+    impact: "Ensuring a hygienic, professionally maintained living and working environment for government employees residing in GPOA Block-3, upholding the prestige standards expected of a Central Government complex in New Delhi.",
+    gallery: [
+      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=2670&auto=format&fit=crop"
+    ]
+  },
+  {
+    slug: "ntpc-barh-housekeeping",
+    title: "NTPC Barh Housekeeping",
+    category: "Industrial Housekeeping",
+    client: "NTPC Limited — Unified Shared Service Centre, CPG-1, Raipur",
+    location: "NTPC Barh, Bihar",
+    year: "2025",
+    duration: "Two Years",
+    status: "Running",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356f12?q=80&w=2670&auto=format&fit=crop",
+    description: "Secured a prestigious two-year contract with NTPC Limited (A Government of India Enterprise) for Coal Mill Reject Handling and Housekeeping in Stage-1 at NTPC Barh Power Plant, under NIT No. 9900313788. Awarded through the GeM Portal via Single Stage Two Envelope Bidding, this contract covers critical industrial housekeeping and coal reject management operations within an active thermal power generation facility.",
+    challenge: "Managing coal mill reject handling and maintaining stringent cleanliness standards inside a fully operational thermal power plant — a high-dust, high-temperature, and safety-critical industrial environment demanding specialized equipment and rigorous safety protocols.",
+    solution: "Deployed a trained team of industrial housekeeping specialists equipped with heavy-duty coal handling machinery, personal protective equipment (PPE), and NTPC-compliant safety protocols. Operations are coordinated with NTPC's plant management to ensure zero interference with power generation continuity.",
+    scope: [
+      "Coal mill reject handling, collection, and systematic disposal in Stage-1",
+      "Mechanized housekeeping of plant interiors, turbine halls, and control rooms",
+      "High-pressure cleaning of machinery bays and industrial floor areas",
+      "Ash and dust suppression in coal handling zones",
+      "Compliance with NTPC's EHS (Environment, Health & Safety) standards throughout the contract period"
+    ],
+    impact: "Ensuring a safe, clean, and operationally efficient environment within one of India's major thermal power generating units, directly contributing to uninterrupted power production and compliance with NTPC's environmental and safety mandates.",
+    gallery: [
+      "https://images.unsplash.com/photo-1504307651254-35680f356f12?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2670&auto=format&fit=crop"
+    ]
+  },
+  {
+    slug: "amrut-ayodhya-oht-repair",
+    title: "Ayodhya OHT Repair — AMRUT 2.0",
+    category: "Water Infrastructure",
+    client: "Nagar Nigam Ayodhya (GCPC Ref No. 906/25-26)",
+    location: "Ayodhya, Uttar Pradesh",
+    year: "2026",
+    duration: "Ongoing",
+    status: "Running",
+    image: "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?q=80&w=2670&auto=format&fit=crop",
+    description: "Awarded a Work Order by Nagar Nigam Ayodhya (Ref No. GCPC/906/25-26, dated 25/03/2026) for Repairing of Old Overhead Tanks (OHT) of capacities 1250KL, 650KL, and 1250KL at Ayodhya, UP. This project forms a critical part of the 24x7 Water Supply Scheme covering 11 wards of Nagar Nigam Ayodhya in Dist. Ayodhya, Uttar Pradesh, executed under the Government of India's AMRUT 2.0 programme.",
+    challenge: "Repairing and rehabilitating ageing overhead water tanks of large capacity in an active, historically significant urban area without disrupting the existing 24x7 water supply to the 11 municipal wards dependent on these structures.",
+    solution: "Deployed specialized structural repair teams to conduct phased rehabilitation of each OHT — using epoxy-based anti-corrosion linings, rebar jacketing for structural reinforcement, and shotcrete application — ensuring each tank is brought back online before work commences on the next, maintaining uninterrupted water supply continuity.",
+    scope: [
+      "Structural inspection and condition assessment of three OHTs (1250KL, 650KL, 1250KL)",
+      "Corrosion treatment and anti-rust coating of the tank interiors and exterior steel components",
+      "Rebar exposure repair, jacketing, and external concrete crack rectification",
+      "Valve, inlet/outlet pipe, and overflow arrangement refurbishment",
+      "Post-repair hydraulic testing, commissioning, and handover to Nagar Nigam Ayodhya"
+    ],
+    impact: "Restoring the full operational capacity of three critical overhead storage tanks ensuring reliable, pressurized 24x7 safe drinking water supply to tens of thousands of residents across 11 wards of Nagar Nigam Ayodhya — fulfilling the AMRUT 2.0 objective of universal urban water coverage.",
+    gallery: [
+      "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?q=80&w=2670&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1579705745172-e146eb0d588c?q=80&w=2670&auto=format&fit=crop"
+    ]
   }
 ];

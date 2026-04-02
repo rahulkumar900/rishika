@@ -1,568 +1,416 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { forwardRef, useRef, useState, useEffect } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 const projectMilestones = [
   {
     year: "2019",
     title: "Foundation & Railways",
-    description: "Inaugural project managing Eastern Railway Stations and executing platform construction in Katihar.",
-    icon: "🚂",
-    color: "#F5C842",
+    description: "Inaugural project managing Eastern Railway Stations and executing platform construction in Katihar, Bihar.",
+    icon: "🚂", color: "#F5C842", tag: "Platform Construction", client: "Eastern Railway",
   },
   {
     year: "2020",
     title: "PHED Expansion",
     description: "Expanded core operations into extensive construction projects for the Public Health Engineering and Irrigation Departments.",
-    icon: "🏗️",
-    color: "#F5A742",
+    icon: "🏗️", color: "#F5A742", tag: "Civil Construction", client: "PHED, Bihar",
   },
   {
     year: "2021",
     title: "Water Infrastructure",
     description: "Secured two major construction and maintenance projects for RCC Overhead Tanks in the PHED Eastern Zone of Bihar.",
-    icon: "💧",
-    color: "#42A5F5",
+    icon: "💧", color: "#42A5F5", tag: "Water Infrastructure", client: "PHED Eastern Zone",
   },
   {
     year: "2022",
     title: "Civic Maintenance",
     description: "Awarded the Patna Municipal Corporation contract including Ganga Ghat steps and a 2km RCC boundary wall.",
-    icon: "🏛️",
-    color: "#66BB6A",
+    icon: "🏛️", color: "#66BB6A", tag: "Civic Works", client: "Patna Municipal Corporation",
   },
   {
     year: "2024",
     title: "Har Ghar Nal Ka Jal",
-    description: "Secured landmark maintenance tenders at the Panchayat level: repainting and water filter cleaning services.",
-    icon: "🚿",
-    color: "#AB47BC",
+    description: "Secured landmark maintenance tenders at the Panchayat level covering repainting and water filter cleaning services across Bihar & Jharkhand.",
+    icon: "🚿", color: "#AB47BC", tag: "Utility Maintenance", client: "State Govt. (Panchayat Level)",
   },
   {
     year: "2025",
     title: "AMRUT 2.0 — 6 Towns",
-    description: "Awarded DBOT contract to provide Water Supply Scheme to Chincholi, Chittapur, Wadi, Kamalapur, Sedam & Kalagi in Kalaburagi District under AMRUT 2.0. Lumpsum, zero-variation tender including 5-year O&M.",
-    icon: "🏙️",
-    color: "#26C6DA",
-    status: "Running",
+    description: "Awarded DBOT contract for Water Supply to Chincholi, Chittapur, Wadi, Kamalapur, Sedam & Kalagi in Kalaburagi District. Lumpsum, zero-variation including 5-year O&M.",
+    icon: "🏙️", color: "#26C6DA", tag: "Water Supply Scheme", client: "Karnataka UWSSB", status: "Running",
   },
   {
     year: "2025",
     title: "AMRUT 2.0 — 5 Towns",
-    description: "Simultaneously secured DBOT contract for Water Supply to Hatti, Kavithal, Manvi, Maski & Turvihal towns in Kalaburagi Zone under AMRUT 2.0 — with full design, build, operate and transfer responsibility.",
-    icon: "🌊",
-    color: "#29B6F6",
-    status: "Running",
+    description: "Simultaneously secured DBOT contract for Water Supply to Hatti, Kavithal, Manvi, Maski & Turvihal in Kalaburagi Zone — full design, build, operate and transfer responsibility.",
+    icon: "🌊", color: "#29B6F6", tag: "Water Supply Scheme", client: "Karnataka UWSSB", status: "Running",
+  },
+  {
+    year: "2025",
+    title: "CPWD — Netaji Nagar",
+    description: "Awarded Mechanized Housekeeping contract for GPOA Block-3, Netaji Nagar, New Delhi by Central Public Works Department (Govt. of India), NIT No. 06/CE/CVPZ-1/2025.",
+    icon: "🏢", color: "#FF7043", tag: "Mechanized Housekeeping", client: "CPWD, Govt. of India", status: "Running",
+  },
+  {
+    year: "2025",
+    title: "NTPC Barh — Industrial Housekeeping",
+    description: "Secured two-year contract with NTPC Limited for Coal Mill Reject Handling & Housekeeping in Stage-1 at NTPC Barh Power Plant, via GeM Portal (NIT No. 9900313788).",
+    icon: "⚡", color: "#FFCA28", tag: "Industrial Housekeeping", client: "NTPC Limited", status: "Running",
   },
   {
     year: "2026",
+    title: "Ayodhya OHT — AMRUT 2.0",
+    description: "Awarded Work Order by Nagar Nigam Ayodhya for repair of three Overhead Tanks (1250KL, 650KL, 1250KL) under the 24x7 Water Supply Scheme for 11 wards under AMRUT 2.0.",
+    icon: "🕌", color: "#66BB6A", tag: "Water Infrastructure", client: "Nagar Nigam Ayodhya", status: "Running",
+  },
+  {
+    year: "2026+",
     title: "Ongoing Expansion",
-    description: "Continuously providing high-grade construction services and specialized redevelopment of massive state infrastructure.",
-    icon: "🚀",
-    color: "#F5C842",
+    description: "Continuously scaling operations with high-grade construction, industrial housekeeping, and specialized redevelopment of critical state infrastructure across India.",
+    icon: "🚀", color: "#F5C842", tag: "Future Growth", client: "Multiple Clients",
   },
 ];
 
-// S-curve road path in a 320×1600 viewBox — 6 curves for 8 milestones
-const ROAD_PATH =
-  "M 160 0 C 160 80, 40 120, 40 200 C 40 280, 280 320, 280 400 C 280 480, 40 520, 40 600 C 40 680, 280 720, 280 800 C 280 880, 40 920, 40 1000 C 40 1080, 280 1120, 280 1200 C 280 1280, 160 1340, 160 1400 C 160 1460, 160 1530, 160 1600";
+const N = projectMilestones.length;
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const MILESTONE_POSITIONS = projectMilestones.map(
-  (_, i) => i / (projectMilestones.length - 1)
-);
-
-// Simple lerp for smoothing
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
+/* ─── Card content ────────────────────────────────────────────── */
+function CardContent({ m }: { m: (typeof projectMilestones)[0] }) {
+  return (
+    <div
+      className="relative rounded-2xl border overflow-hidden group transition-colors duration-500 bg-white/[0.03] hover:bg-white/[0.06]"
+      style={{ borderColor: `${m.color}30` }}
+    >
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: `linear-gradient(90deg,${m.color},${m.color}00)` }}
+      />
+      <div className="p-4 md:p-5">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0"
+              style={{ background: `${m.color}1a` }}
+            >
+              {m.icon}
+            </div>
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] font-bold mb-1" style={{ color: m.color }}>
+                {m.year}
+              </div>
+              <div
+                className="inline-block text-[8px] font-bold uppercase tracking-widest px-2 py-[2px] rounded-sm"
+                style={{ background: `${m.color}1a`, color: m.color }}
+              >
+                {m.tag}
+              </div>
+            </div>
+          </div>
+          {(m as { status?: string }).status === "Running" && (
+            <span className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 px-2 py-1 rounded-md shrink-0">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+              </span>
+              Live
+            </span>
+          )}
+        </div>
+        <h3 className="text-white font-black text-sm md:text-base uppercase tracking-tight leading-tight mb-2">
+          {m.title}
+        </h3>
+        <p className="text-white/45 text-[11px] md:text-sm leading-relaxed mb-3">
+          {m.description}
+        </p>
+        <div className="flex items-center gap-2 pt-3 border-t border-white/[0.06]">
+          <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: m.color }} />
+          <span className="text-white/28 text-[9px] font-mono uppercase tracking-widest truncate">
+            {m.client}
+          </span>
+        </div>
+      </div>
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
+        style={{ boxShadow: `inset 0 0 50px ${m.color}0a` }}
+      />
+    </div>
+  );
 }
 
-export function Milestones() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
+/* ─── Milestone row (wraps both mobile & desktop layouts) ─────── */
+interface RowProps {
+  m: (typeof projectMilestones)[0];
+  i: number;
+  isLeft: boolean;
+  isActive: boolean;
+}
 
-  // Raw & smoothed progress stored in refs for RAF (avoids stale closure)
-  const rawProgress = useRef(0);
-  const smoothedProgress = useRef(0);
-  const rafRef = useRef<number>(0);
+const MilestoneRow = forwardRef<HTMLDivElement, RowProps>(
+  ({ m, i, isLeft, isActive }, ref) => {
+    const dotStyle = {
+      borderColor: isActive ? m.color : "#333",
+      background: "#050505",
+      boxShadow: isActive ? `0 0 18px ${m.color}90` : "none",
+      transition: "all 0.45s ease",
+    };
+    const innerDotBg = { background: isActive ? m.color : "#444", transition: "background 0.45s" };
 
-  // Car state driven by RAF — stored in state only for React re-render
-  const [carPos, setCarPos] = useState({ x: 160, y: 0 });
-  const [carAngle, setCarAngle] = useState(90);
-  const [trailProgress, setTrailProgress] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const [dotPositions, setDotPositions] = useState<{ x: number; y: number }[]>([]);
+    return (
+      <div ref={ref}>
+        {/* ══ MOBILE (left spine, full-width cards) ══ */}
+        {/*
+          The spine lives at left-4 (16px) in the container.
+          The dot is absolutely placed at left-4 -translate-x-1/2 so it
+          sits exactly centred on the spine. The card uses pl-10 to clear it.
+        */}
+        <div className="relative md:hidden">
+          {/* Dot — pinned to the spine */}
+          <motion.div
+            initial={false}
+            animate={isActive ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0.25 }}
+            transition={{ duration: 0.4, ease }}
+            className="absolute left-4 -translate-x-1/2 top-5 z-10 w-4 h-4 rounded-full border-2 flex items-center justify-center"
+            style={dotStyle}
+          >
+            <div className="w-1.5 h-1.5 rounded-full" style={innerDotBg} />
+          </motion.div>
 
-  // ── Compute dot positions once path is in DOM ──────────────────────────────
-  useEffect(() => {
-    const path = pathRef.current;
-    if (!path) return;
-    const len = path.getTotalLength();
-    setDotPositions(
-      MILESTONE_POSITIONS.map((t) => {
-        const pt = path.getPointAtLength(t * len);
-        return { x: pt.x, y: pt.y };
-      })
+          {/* Card — offset right of the spine */}
+          <motion.div
+            initial={false}
+            animate={isActive ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: 28, scale: 0.97 }}
+            transition={{ duration: 0.6, ease }}
+            className="pl-10"
+          >
+            <CardContent m={m} />
+          </motion.div>
+        </div>
+
+        {/* ══ DESKTOP (alternating L/R) ══ */}
+        <div className="hidden md:flex items-center w-full">
+          {/* Left zone */}
+          <div className="flex-1 pr-3">
+            {isLeft ? (
+              <motion.div
+                initial={false}
+                animate={isActive ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -36, scale: 0.97 }}
+                transition={{ duration: 0.65, ease }}
+              >
+                <CardContent m={m} />
+              </motion.div>
+            ) : <div />}
+          </div>
+
+          {/* Centre connector zone */}
+          <div className="relative shrink-0 flex items-center justify-center" style={{ width: 96, height: 48 }}>
+            {/* Arm — only toward the card side */}
+            <motion.div
+              initial={false}
+              animate={isActive ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease }}
+              className={`absolute top-1/2 -translate-y-1/2 h-px ${
+                isLeft ? "left-0 right-1/2 origin-left" : "left-1/2 right-0 origin-right"
+              }`}
+              style={{ background: `${m.color}60` }}
+            />
+            {/* Dot */}
+            <motion.div
+              initial={false}
+              animate={isActive ? { scale: 1, opacity: 1 } : { scale: 0.4, opacity: 0.2 }}
+              transition={{ duration: 0.4, ease }}
+              className="relative z-10 w-5 h-5 rounded-full border-2 flex items-center justify-center"
+              style={dotStyle}
+            >
+              <div className="w-2 h-2 rounded-full" style={innerDotBg} />
+            </motion.div>
+          </div>
+
+          {/* Right zone */}
+          <div className="flex-1 pl-3">
+            {!isLeft ? (
+              <motion.div
+                initial={false}
+                animate={isActive ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: 36, scale: 0.97 }}
+                transition={{ duration: 0.65, ease }}
+              >
+                <CardContent m={m} />
+              </motion.div>
+            ) : <div />}
+          </div>
+        </div>
+      </div>
     );
-  }, []);
+  }
+);
+MilestoneRow.displayName = "MilestoneRow";
 
-  // ── Scroll handler: reads section offset, updates rawProgress ──────────────
-  const handleScroll = useCallback(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const rect = section.getBoundingClientRect();
-    const sectionH = section.offsetHeight;
-    const viewH = window.innerHeight;
-    // progress goes 0→1 as section scrolls from "top at viewport bottom" to "bottom at viewport top"
-    // We use: start = section top hits viewport top, end = section bottom hits viewport top
-    const scrolled = -rect.top;
-    const total = sectionH - viewH;
-    const progress = Math.min(1, Math.max(0, scrolled / total));
-    rawProgress.current = progress;
-  }, []);
+/* ─── Main export ─────────────────────────────────────────────── */
+export function Milestones() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>(Array(N).fill(null));
+  // Normalized [0-1] threshold for each dot: dotOffsetTop / containerHeight
+  const thresholdsRef = useRef<number[]>(Array.from({ length: N }, (_, i) => i / (N - 1)));
+  const [activeCount, setActiveCount] = useState(0);
 
-  // ── RAF loop: smooths progress and updates car position ────────────────────
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 90%", "end 60%"],
+  });
+
+  const lineScaleY = useSpring(scrollYProgress, {
+    stiffness: 55,
+    damping: 18,
+    restDelta: 0.001,
+  });
+
+  /* Measure real dot positions after layout */
   useEffect(() => {
-    const path = pathRef.current;
+    const measure = () => {
+      const container = timelineRef.current;
+      if (!container) return;
+      const containerH = container.offsetHeight;
+      if (containerH === 0) return;
 
-    const tick = () => {
-      // Lerp toward raw target (0.1 = speed of catch-up)
-      smoothedProgress.current = lerp(smoothedProgress.current, rawProgress.current, 0.08);
-      const val = smoothedProgress.current;
-
-      if (path) {
-        const totalLen = path.getTotalLength();
-        const pt = path.getPointAtLength(val * totalLen);
-
-        // Tangent angle
-        const delta = 3;
-        const p1 = path.getPointAtLength(Math.max(0, val * totalLen - delta));
-        const p2 = path.getPointAtLength(Math.min(totalLen, val * totalLen + delta));
-        const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
-
-        setCarPos({ x: pt.x, y: pt.y });
-        setCarAngle(angle);
-        setTrailProgress(val);
-
-        // Which milestone is active
-        let newActive = -1;
-        MILESTONE_POSITIONS.forEach((pos, i) => {
-          if (val >= pos - 0.04) newActive = i;
-        });
-        setActiveIndex(newActive);
-      }
-
-      rafRef.current = requestAnimationFrame(tick);
+      thresholdsRef.current = rowRefs.current.map((el) => {
+        if (!el) return 0;
+        // Centre of the row relative to container top
+        const offsetMid = el.offsetTop + el.offsetHeight / 2;
+        return offsetMid / containerH;
+      });
     };
 
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+    // Measure after paint
+    measure();
+    const t1 = setTimeout(measure, 100);
+    const t2 = setTimeout(measure, 500);
+
+    const ro = new ResizeObserver(measure);
+    if (timelineRef.current) ro.observe(timelineRef.current);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      ro.disconnect();
+    };
   }, []);
 
-  // ── Wire up scroll listener (works with Lenis because Lenis fires scroll events) ──
+  /* Subscribe to the spring and update activeCount */
   useEffect(() => {
-    // Lenis dispatches a custom 'scroll' event AND also updates window.scrollY,
-    // so listening to the window 'scroll' event still works.
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // set initial value
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+    return lineScaleY.on("change", (v) => {
+      let count = 0;
+      thresholdsRef.current.forEach((t) => {
+        if (v >= t) count++;
+      });
+      setActiveCount(count);
+    });
+  }, [lineScaleY]);
 
-  const easeExpoOut: [number, number, number, number] = [0.16, 1, 0.3, 1];
+  const hVp = { once: true, amount: 0.4 };
 
   return (
     <section
       id="history"
-      ref={sectionRef}
-      className="bg-[#050505] relative border-t border-white/10"
-      style={{ minHeight: "600vh" }}
+      className="bg-[#050505] relative border-t border-white/10 py-24 md:py-36 overflow-hidden"
     >
-      {/* ── Sticky viewport ─────────────────────────────────── */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      {/* Ambient glows */}
+      <div className="absolute inset-0 pointer-events-none select-none">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[60vw] h-[50vh] rounded-full bg-primary/[0.04] blur-[140px]" />
+        <div className="absolute bottom-1/4 right-0 w-[30vw] h-[28vh] rounded-full bg-blue-400/[0.035] blur-[110px]" />
+      </div>
 
-        {/* Ambient bg glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] rounded-full bg-primary/5 blur-[120px]" />
-        </div>
+      <div className="relative max-w-6xl mx-auto px-4 md:px-8">
 
-        {/* ── Title ───────────────────────────────────────────── */}
-        <div className="absolute top-6 left-0 w-full flex flex-col items-start px-4 md:px-16 z-20 pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: easeExpoOut }}
+        {/* ── Section header ── */}
+        <div className="text-center mb-20 md:mb-28">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={hVp} transition={{ duration: 0.8, ease }}
+            className="text-primary text-[10px] md:text-xs font-mono uppercase tracking-[0.35em] mb-4 opacity-70"
           >
-            <p className="text-primary text-[10px] md:text-sm font-mono uppercase tracking-[0.3em] mb-1 opacity-70">
-              — Our Journey
-            </p>
-            <h2 className="text-white text-3xl md:text-7xl font-black tracking-tighter uppercase leading-[0.85]">
-              Project<br />
-              <span className="text-primary">History.</span>
-            </h2>
-          </motion.div>
+            — Our Journey
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={hVp} transition={{ duration: 1, ease, delay: 0.1 }}
+            className="text-white text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.85]"
+          >
+            Project<br /><span className="text-primary">History.</span>
+          </motion.h2>
+          <motion.div
+            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
+            viewport={hVp} transition={{ duration: 0.8, ease, delay: 0.3 }}
+            className="w-16 h-0.5 bg-primary mx-auto mt-8 origin-center"
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={hVp} transition={{ duration: 0.8, ease, delay: 0.45 }}
+            className="text-white/35 text-sm md:text-base mt-6 max-w-xl mx-auto leading-relaxed"
+          >
+            From a single railway contract in 2019 to 11 live projects across India — a decade of growth, trust, and execution.
+          </motion.p>
         </div>
 
-        {/* ── Main content area ───────────────────────────────── */}
-        <div className="relative w-full h-full flex items-center justify-center">
+        {/* ── Timeline container ── */}
+        {/*
+          Mobile:  spine at left-[10px], cards padded via pl-8
+          Desktop: spine at left-1/2 (center)
+        */}
+        <div ref={timelineRef} className="relative">
 
-          {/* SVG Road */}
-          {/* On mobile: pinned to the right side. On desktop: centered */}
-          <div className="absolute inset-0 flex items-center md:justify-center justify-end pointer-events-none">
-            <svg
-              viewBox="0 -100 320 1800"
-              className="h-full max-h-screen w-auto"
-              style={{ maxWidth: "clamp(110px, 35vw, 220px)" }}
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Shadow glow */}
-              <path d={ROAD_PATH} stroke="rgba(255,255,255,0.03)" strokeWidth="48" fill="none" strokeLinecap="round" />
-              {/* Road base */}
-              <path d={ROAD_PATH} stroke="#1a1a1a" strokeWidth="32" fill="none" strokeLinecap="round" />
-              {/* Road surface */}
-              <path d={ROAD_PATH} stroke="#252525" strokeWidth="28" fill="none" strokeLinecap="round" />
-              {/* Gold edge glow */}
-              <path d={ROAD_PATH} stroke="#F5C842" strokeWidth="30" fill="none" strokeLinecap="round" strokeOpacity="0.13" />
-              {/* Dashed centre line */}
-              <path d={ROAD_PATH} stroke="#F5C842" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeDasharray="14 12" strokeOpacity="0.45" />
+          {/* Ghost spine track — left-4 (16px) on mobile, centered on desktop */}
+          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-white/[0.07] rounded-full" />
 
-              {/* Driven trail – drawn via stroke-dasharray trick */}
-              <path
-                d={ROAD_PATH}
-                stroke="#F5C842"
-                strokeWidth="3"
-                fill="none"
-                strokeLinecap="round"
-                style={{
-                  strokeDasharray: "1 0",
-                  strokeDashoffset: 0,
-                  // Use CSS custom property approach: pathLength-based clip
-                  opacity: 0.7,
-                  filter: "drop-shadow(0 0 5px #F5C842aa)",
-                }}
-                // We drive this via a clipPath trick or via pathLength
-                // pathLength + strokeDasharray allow % progress
-                pathLength={1}
-                strokeDasharray={`${trailProgress} ${1 - trailProgress}`}
-                strokeDashoffset={0}
-              />
-
-              {/* Hidden measurement path */}
-              <path
-                ref={pathRef}
-                d={ROAD_PATH}
-                stroke="none"
-                fill="none"
-                style={{ visibility: "hidden" }}
-              />
-
-              {/* Milestone dots */}
-              {dotPositions.map((pos, i) => {
-                const isActive = i <= activeIndex;
-                const m = projectMilestones[i];
-                return (
-                  <g key={i}>
-                    <circle
-                      cx={pos.x} cy={pos.y}
-                      r={isActive ? 13 : 9}
-                      fill={isActive ? `${m.color}20` : "transparent"}
-                      stroke={isActive ? m.color : "#3a3a3a"}
-                      strokeWidth={isActive ? 2 : 1.5}
-                      style={{ transition: "all 0.5s ease" }}
-                    />
-                    <circle
-                      cx={pos.x} cy={pos.y}
-                      r={isActive ? 5.5 : 3.5}
-                      fill={isActive ? m.color : "#2a2a2a"}
-                      style={{ transition: "all 0.5s ease" }}
-                    />
-                    {/* Pulse ring when active */}
-                    {i === activeIndex && (
-                      <circle
-                        cx={pos.x} cy={pos.y}
-                        r={20}
-                        fill="none"
-                        stroke={m.color}
-                        strokeWidth={1}
-                        opacity={0.4}
-                        style={{ animation: "ping 1.5s ease-out infinite" }}
-                      />
-                    )}
-                  </g>
-                );
-              })}
-
-              {/* ── Car ───────────────────────────────────────── */}
-              <g
-                transform={`translate(${carPos.x}, ${carPos.y}) rotate(${carAngle}) translate(-24, -15)`}
-              >
-                {/* Glow */}
-                <ellipse cx="24" cy="15" rx="22" ry="12" fill="#F5C842" opacity="0.12" />
-                <ellipse cx="24" cy="15" rx="14" ry="8" fill="#F5C842" opacity="0.18" />
-                {/* Body */}
-                <rect x="2" y="9" width="44" height="14" rx="5" fill="#F5C842" />
-                {/* Cabin */}
-                <rect x="11" y="3" width="24" height="12" rx="3" fill="#FFE082" />
-                {/* Windows */}
-                <rect x="13" y="5" width="9" height="7" rx="1.5" fill="#111" opacity="0.8" />
-                <rect x="24" y="5" width="9" height="7" rx="1.5" fill="#111" opacity="0.8" />
-                {/* Wheels */}
-                <circle cx="11" cy="23" r="5.5" fill="#111" />
-                <circle cx="11" cy="23" r="2.5" fill="#555" />
-                <circle cx="37" cy="23" r="5.5" fill="#111" />
-                <circle cx="37" cy="23" r="2.5" fill="#555" />
-                {/* Headlights */}
-                <ellipse cx="46" cy="14" rx="2" ry="1.5" fill="#fff9e0" opacity="0.95" />
-                <ellipse cx="46" cy="14" rx="5" ry="2.5" fill="#fff9e0" opacity="0.2" />
-                {/* Taillights */}
-                <ellipse cx="2" cy="14" rx="2" ry="1.5" fill="#ff3333" opacity="0.9" />
-              </g>
-            </svg>
+          {/* Animated spine fill — scaleY driven by spring */}
+          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-px overflow-hidden rounded-full pointer-events-none">
+            <motion.div
+              style={{
+                scaleY: lineScaleY,
+                transformOrigin: "top",
+                height: "100%",
+                width: "100%",
+                background:
+                  "linear-gradient(to bottom,#F5C842,#F5A742,#42A5F5,#66BB6A,#AB47BC,#26C6DA,#29B6F6,#FF7043,#FFCA28,#66BB6A,#F5C842)",
+                opacity: 0.85,
+                filter: "drop-shadow(0 0 3px #F5C84288)",
+              }}
+            />
           </div>
 
-          {/* ── Mobile: Active card panel (left side, replaces left/right columns) ── */}
-          <div className="md:hidden absolute left-0 top-0 h-full w-[58%] flex flex-col justify-center px-4 pointer-events-none">
-            <AnimatePresence mode="wait">
-              {activeIndex >= 0 && (
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -8 }}
-                  transition={{ duration: 0.4, ease: easeExpoOut }}
-                  className="flex flex-col gap-2"
-                >
-                  <div
-                    className="text-3xl"
-                    style={{ filter: `drop-shadow(0 2px 12px ${projectMilestones[activeIndex].color}88)` }}
-                  >
-                    {projectMilestones[activeIndex].icon}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="font-mono text-xs uppercase tracking-[0.25em]"
-                      style={{ color: projectMilestones[activeIndex].color }}
-                    >
-                      {projectMilestones[activeIndex].year}
-                    </div>
-                    {(projectMilestones[activeIndex] as { status?: string }).status === "Running" && (
-                      <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-cyan-400 border border-cyan-500/40 bg-cyan-500/10 px-1.5 py-0.5">
-                        <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-500" /></span>
-                        Live
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-white font-black text-xl uppercase tracking-tight leading-tight">
-                    {projectMilestones[activeIndex].title}
-                  </h3>
-                  <p className="text-white/55 text-xs leading-relaxed max-w-[200px]">
-                    {projectMilestones[activeIndex].description}
-                  </p>
-                  <div
-                    className="mt-1 h-px w-10"
-                    style={{
-                      background: `linear-gradient(to right, ${projectMilestones[activeIndex].color}88, ${projectMilestones[activeIndex].color}00)`,
-                    }}
-                  />
-                </motion.div>
-              )}
-              {activeIndex < 0 && (
-                <motion.div
-                  key="placeholder"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex flex-col gap-2"
-                >
-                  <div className="text-white/20 text-xs font-mono uppercase tracking-widest">Start scrolling</div>
-                  <div className="text-white/10 text-sm font-black uppercase tracking-tight">Our journey<br/>begins here</div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* ── Desktop: Cards LEFT (even index milestones) ─────────── */}
-          <div className="hidden md:flex absolute left-0 top-0 w-[44%] h-full flex-col justify-around py-24 px-8 pointer-events-none">
-            {projectMilestones.map((m, i) => {
-              if (i % 2 !== 0) return null;
-              const isActive = i === activeIndex;
-              const isPast = i < activeIndex;
-              return (
-                <motion.div
-                  key={i}
-                  animate={{
-                    opacity: isActive ? 1 : isPast ? 0.28 : 0.12,
-                    x: isActive ? 0 : -8,
-                    scale: isActive ? 1 : 0.96,
-                  }}
-                  transition={{ duration: 0.5, ease: easeExpoOut }}
-                  className="text-right"
-                >
-                  <div className="inline-block text-2xl md:text-3xl mb-1" style={{ filter: `drop-shadow(0 2px 8px ${m.color}66)` }}>
-                    {m.icon}
-                  </div>
-                  <div className="flex items-center justify-end gap-2 mb-0.5">
-                    <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em]" style={{ color: m.color }}>
-                      {m.year}
-                    </div>
-                    {(m as { status?: string }).status === "Running" && (
-                      <span className="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-cyan-400 border border-cyan-500/40 bg-cyan-500/10 px-1 py-0.5">
-                        <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-500" /></span>
-                        Live
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-white font-black text-sm md:text-xl uppercase tracking-tight leading-tight">
-                    {m.title}
-                  </h3>
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.p
-                        key="desc"
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -4 }}
-                        transition={{ duration: 0.35 }}
-                        className="text-white/55 text-[11px] md:text-sm leading-relaxed mt-1 max-w-[170px] md:max-w-[210px] ml-auto"
-                      >
-                        {m.description}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                  <div className="mt-2 ml-auto h-px w-6 md:w-10" style={{ background: `linear-gradient(to right, ${m.color}00, ${m.color}77)` }} />
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* ── Desktop: Cards RIGHT (odd index milestones) ──────────── */}
-          <div className="hidden md:flex absolute right-0 top-0 w-[44%] h-full flex-col justify-around py-24 px-8 pointer-events-none">
-            {projectMilestones.map((m, i) => {
-              if (i % 2 !== 1) return null;
-              const isActive = i === activeIndex;
-              const isPast = i < activeIndex;
-              return (
-                <motion.div
-                  key={i}
-                  animate={{
-                    opacity: isActive ? 1 : isPast ? 0.28 : 0.12,
-                    x: isActive ? 0 : 8,
-                    scale: isActive ? 1 : 0.96,
-                  }}
-                  transition={{ duration: 0.5, ease: easeExpoOut }}
-                  className="text-left"
-                >
-                  <div className="inline-block text-2xl md:text-3xl mb-1" style={{ filter: `drop-shadow(0 2px 8px ${m.color}66)` }}>
-                    {m.icon}
-                  </div>
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em]" style={{ color: m.color }}>
-                      {m.year}
-                    </div>
-                    {(m as { status?: string }).status === "Running" && (
-                      <span className="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest text-cyan-400 border border-cyan-500/40 bg-cyan-500/10 px-1 py-0.5">
-                        <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-500" /></span>
-                        Live
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-white font-black text-sm md:text-xl uppercase tracking-tight leading-tight">
-                    {m.title}
-                  </h3>
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.p
-                        key="desc"
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -4 }}
-                        transition={{ duration: 0.35 }}
-                        className="text-white/55 text-[11px] md:text-sm leading-relaxed mt-1 max-w-[170px] md:max-w-[210px]"
-                      >
-                        {m.description}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                  <div className="mt-2 h-px w-6 md:w-10" style={{ background: `linear-gradient(to right, ${m.color}77, ${m.color}00)` }} />
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* ── Active badge (bottom center) — desktop only ────── */}
-          <AnimatePresence mode="wait">
-            {activeIndex >= 0 && (
-              <motion.div
-                key={activeIndex}
-                className="hidden md:block absolute bottom-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none"
-                initial={{ opacity: 0, y: 16, scale: 0.88 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.92 }}
-                transition={{ duration: 0.45, ease: easeExpoOut }}
-              >
-                <div
-                  className="rounded-2xl px-5 py-3 backdrop-blur-xl border text-center"
-                  style={{
-                    background: "rgba(8,8,8,0.88)",
-                    borderColor: `${projectMilestones[activeIndex].color}40`,
-                    boxShadow: `0 0 30px ${projectMilestones[activeIndex].color}18, inset 0 1px 0 rgba(255,255,255,0.04)`,
-                  }}
-                >
-                  <div
-                    className="text-2xl font-black tracking-[0.15em] font-mono"
-                    style={{ color: projectMilestones[activeIndex].color }}
-                  >
-                    {projectMilestones[activeIndex].year}
-                  </div>
-                  <div className="text-white font-bold text-xs uppercase tracking-widest">
-                    {projectMilestones[activeIndex].title}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* ── Progress dots — hidden on mobile (replaced by card panel) ── */}
-          <div className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 flex-col gap-2 z-20 pointer-events-none">
+          {/* Milestone rows */}
+          <div className="flex flex-col gap-8 md:gap-10">
             {projectMilestones.map((m, i) => (
-              <motion.div
+              <MilestoneRow
                 key={i}
-                animate={{
-                  scale: i === activeIndex ? 1.5 : i < activeIndex ? 1 : 0.7,
-                  opacity: i === activeIndex ? 1 : i < activeIndex ? 0.55 : 0.2,
-                }}
-                transition={{ duration: 0.35 }}
-                className="w-2 h-2 rounded-full"
-                style={{ background: i === activeIndex ? m.color : i < activeIndex ? m.color : "#ffffff" }}
+                ref={(el) => { rowRefs.current[i] = el; }}
+                m={m}
+                i={i}
+                isLeft={i % 2 === 0}
+                isActive={i < activeCount}
               />
             ))}
           </div>
 
-          {/* ── Scroll hint ──────────────────────────────────── */}
+          {/* End cap — appears after all cards active */}
           <motion.div
-            className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 pointer-events-none"
-            animate={{ opacity: activeIndex >= 0 ? 0 : 1 }}
-            transition={{ duration: 0.5 }}
+            initial={false}
+            animate={activeCount >= N ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: 0.6, ease }}
+            className="flex justify-center mt-14"
           >
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-white/25 text-[9px] font-mono uppercase tracking-[0.25em]">Scroll to drive</span>
+            <div className="flex flex-col items-center gap-3">
               <motion.div
-                animate={{ y: [0, 7, 0] }}
-                transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-                className="w-px h-7 bg-gradient-to-b from-white/35 to-transparent"
+                animate={{ boxShadow: ["0 0 8px #F5C842aa", "0 0 28px #F5C842cc", "0 0 8px #F5C842aa"] }}
+                transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
+                className="w-4 h-4 rounded-full bg-primary"
               />
+              <span className="text-primary font-mono text-[9px] uppercase tracking-widest opacity-50">
+                Growing Forward
+              </span>
             </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Keyframe for pulse ring */}
-      <style>{`
-        @keyframes ping {
-          0% { transform: scale(1); opacity: 0.4; }
-          100% { transform: scale(1.8); opacity: 0; }
-        }
-      `}</style>
     </section>
   );
 }
