@@ -83,7 +83,7 @@ export function About() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95, clipPath: "inset(100% 0 0 0)" }}
               whileInView={{ opacity: 1, scale: 1, clipPath: "inset(0% 0 0 0)" }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "0px" }}
               transition={{ duration: 1.8, ease: easeExpoOut }}
               className="aspect-[3/4] overflow-hidden bg-white/5"
             >
