@@ -16,7 +16,7 @@ export function About() {
 
   return (
     <section ref={containerRef} id="about" className="py-32 md:py-48 bg-[#050505] text-white relative overflow-hidden">
-      
+
       {/* Massive Scrolling Typography Background */}
       <div className="absolute top-10 md:top-32 left-0 w-[200vw] sm:w-[150vw] pointer-events-none opacity-5">
         <motion.div style={{ x: xText1 }} className="text-[15vw] font-black uppercase whitespace-nowrap leading-[0.8] tracking-tighter">
@@ -28,17 +28,17 @@ export function About() {
       </div>
 
       <div className="container px-4 md:px-10 mx-auto relative z-10 w-full">
-        
+
         {/* Core Philosophy Statement */}
         <div className="max-w-4xl mb-40">
-          <motion.div 
+          <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: "8rem" }}
             transition={{ duration: 1.5, ease: easeExpoOut }}
             viewport={{ once: true, margin: "-100px" }}
             className="h-[2px] bg-primary mb-12"
           />
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -71,7 +71,7 @@ export function About() {
 
         {/* The Director Brutalist Block */}
         <div className="grid lg:grid-cols-12 gap-10 mt-32 md:mt-64 relative border-t border-white/10 pt-10">
-          
+
           {/* Vertical Title */}
           <div className="lg:col-span-1 hidden lg:flex justify-center">
             <div className="[writing-mode:vertical-lr] rotate-180 uppercase tracking-[0.5em] text-xs font-bold text-white/30 pt-10">
@@ -87,13 +87,13 @@ export function About() {
               transition={{ duration: 1.8, ease: easeExpoOut }}
               className="aspect-[3/4] overflow-hidden bg-white/5"
             >
-              <img 
-                src="/director.webp" 
+              <img
+                src="/director.webp"
                 alt="Shishupal Kumar"
                 className="w-full h-full object-cover grayscale mix-blend-luminosity opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
               />
             </motion.div>
-            
+
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
@@ -105,17 +105,17 @@ export function About() {
 
           <div className="lg:col-span-6 lg:pl-10 flex flex-col justify-end pb-10">
             <div className="overflow-hidden mb-6">
-              <motion.h3 
+              <motion.h3
                 initial={{ y: "100%" }}
                 whileInView={{ y: "0%" }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: easeExpoOut }}
                 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white"
               >
-                Shishupal Kumar
+                Shishupal Bharti
               </motion.h3>
             </div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -125,7 +125,7 @@ export function About() {
               Managing Director
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
